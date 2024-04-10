@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using InventoryManagement.Adstractions.CustomMappers;
 using InventoryManagement.Adstractions.Helpers;
 using InventoryManagement.Adstractions.UseCasesPorts;
 using InventoryManagement.Adstractions.UseCasesSegregation.Catalogs;
@@ -9,7 +8,6 @@ using InventoryManagement.UseCases.Catalogs.InteractorsSegregation;
 using InventoryManagement.UseCases.Catalogs.Validators;
 using InventoryManagement.UseCases.Helpers;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace InventoryManagement.UseCases
 {
@@ -18,14 +16,18 @@ namespace InventoryManagement.UseCases
         public static IServiceCollection AddUseCasesServices(this IServiceCollection services)
         {
             //Register validators
-            services.AddValidatorsFromAssemblyContaining<CatalogRequestDtoValidator>(ServiceLifetime.Transient);
+            services.AddValidatorsFromAssemblyContaining<RequestByModifyCatalogDtoValidator>(ServiceLifetime.Transient);
+            services.AddValidatorsFromAssemblyContaining<RequestCatalogDtoValidator>(ServiceLifetime.Transient);
 
             //Register use cases (InputPort-Interactor)
-            services.AddScoped<ICatalogUseCaseInputPort, CurrencyCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<CurrencyTypeCatalog>, CurrencyCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<InputTypeCatalog>, InputCatalogCrudInteractor>();
 
             //Register use cases (Interface Segregation-Interactor)
-            services.AddScoped(typeof(IShowCatalogUseCase<CurrencyTypeCatalog>), typeof(ShowRecordsCatalogUseCase<CurrencyTypeCatalog>));
-            services.AddScoped(typeof(ICatalogsOperationsUseCase<CurrencyTypeCatalog>), typeof(CatalogsOperationsUseCase<CurrencyTypeCatalog>));
+            services.AddScoped(typeof(ICatalogQueryOperationsUseCase<CurrencyTypeCatalog>), typeof(CatalogQueryOperationsUseCase<CurrencyTypeCatalog>));
+            services.AddScoped(typeof(ICatalogCommandOperationsUseCase<CurrencyTypeCatalog>), typeof(CatalogCommandOperationsUseCase<CurrencyTypeCatalog>));
+            services.AddScoped(typeof(ICatalogQueryOperationsUseCase<InputTypeCatalog>), typeof(CatalogQueryOperationsUseCase<InputTypeCatalog>));
+            services.AddScoped(typeof(ICatalogCommandOperationsUseCase<InputTypeCatalog>), typeof(CatalogCommandOperationsUseCase<InputTypeCatalog>));
 
             //Register Helpers
             services.AddScoped<IResponseResultHelpers, ResponseResultHelpers>();

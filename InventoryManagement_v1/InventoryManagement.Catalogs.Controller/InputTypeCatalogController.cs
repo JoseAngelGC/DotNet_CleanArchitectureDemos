@@ -1,21 +1,21 @@
-﻿using InventoryManagement.Adstractions.UseCasesPorts;
-using InventoryManagement.Adstractions.UseCasesPorts.commons;
+﻿using InventoryManagement.Adstractions.UseCasesPorts.commons;
+using InventoryManagement.Adstractions.UseCasesPorts;
 using InventoryManagement.Dtos.Abstractions;
-using InventoryManagement.Dtos.Catalogs;
 using InventoryManagement.Entities.Catalogs;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using InventoryManagement.Dtos.Catalogs;
 
 namespace InventoryManagement.Catalogs.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
     [Description("[CurrencyCatalog EndPoints]")]
-    public class CurrencyCatalogController : ControllerBase
+    public class InputTypeCatalogController : ControllerBase
     {
-        private readonly ICatalogUseCaseInputPort<CurrencyTypeCatalog> _catalogUseCaseInputPort;
+        private readonly ICatalogUseCaseInputPort<InputTypeCatalog> _catalogUseCaseInputPort;
         private readonly IResponseOutputPort<IResponseResult> _responseOutputPort;
-        public CurrencyCatalogController(ICatalogUseCaseInputPort<CurrencyTypeCatalog> catalogUseCaseInputPort, IResponseOutputPort<IResponseResult> responseOutputPort)
+        public InputTypeCatalogController(ICatalogUseCaseInputPort<InputTypeCatalog> catalogUseCaseInputPort, IResponseOutputPort<IResponseResult> responseOutputPort)
         {
             _catalogUseCaseInputPort = catalogUseCaseInputPort;
             _responseOutputPort = responseOutputPort;
@@ -31,7 +31,7 @@ namespace InventoryManagement.Catalogs.Controller
         [HttpPost("item/{id:int}")]
         public async Task<ActionResult<IResponseResult>> GetCurrencyItemAsync(int id, [FromBody] RequestCatalogDto request)
         {
-            await _catalogUseCaseInputPort.ShowRecordAsync(id,request);
+            await _catalogUseCaseInputPort.ShowRecordAsync(id, request);
             return Ok(_responseOutputPort.Content);
         }
 
@@ -50,7 +50,7 @@ namespace InventoryManagement.Catalogs.Controller
         }
 
         [HttpDelete("clearOffItem/{id:int}")]
-        public async Task<ActionResult<IResponseResult>> DeleteCurrencyAsync(int id,[FromBody] RequestByModifyCatalogDto request)
+        public async Task<ActionResult<IResponseResult>> DeleteCurrencyAsync(int id, [FromBody] RequestByModifyCatalogDto request)
         {
             await _catalogUseCaseInputPort.DeleteRecordAsync(id, request);
             return Ok(_responseOutputPort.Content);

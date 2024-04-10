@@ -13,21 +13,16 @@ using InventoryManagement.UseCases.Catalogs.Validators;
 
 namespace InventoryManagement.UseCases.Catalogs
 {
-    public class CurrencyCatalogCrudInteractor : ICatalogUseCaseInputPort<CurrencyTypeCatalog>
+    public class InputCatalogCrudInteractor : ICatalogUseCaseInputPort<InputTypeCatalog>
     {
-        private readonly ICatalogQueryOperationsUseCase<CurrencyTypeCatalog> _catalogQueryOperationsUseCase;
-        private readonly ICatalogCommandOperationsUseCase<CurrencyTypeCatalog> _catalogCommandOperationsUseCase;
+        private readonly ICatalogQueryOperationsUseCase<InputTypeCatalog> _catalogQueryOperationsUseCase;
+        private readonly ICatalogCommandOperationsUseCase<InputTypeCatalog> _catalogCommandOperationsUseCase;
         private readonly IResponseOutputPort<IResponseResult> _responseOutputPort;
         private readonly IResponseResultHelpers _responseResultHelpers;
         private readonly RequestByModifyCatalogDtoValidator _requestByModifyCatalogDtoValidator;
         private readonly RequestCatalogDtoValidator _requestCatalogDtoValidator;
         private readonly IMapper _mapper;
-
-        public CurrencyCatalogCrudInteractor(ICatalogQueryOperationsUseCase<CurrencyTypeCatalog> catalogQueryOperationsUseCase,
-            ICatalogCommandOperationsUseCase<CurrencyTypeCatalog> catalogCommandOperationsUseCase,
-            IResponseOutputPort<IResponseResult> responseOutputPort, IResponseResultHelpers responseResultHelpers,
-            RequestByModifyCatalogDtoValidator requestByModifyCatalogDtoValidator, 
-            RequestCatalogDtoValidator requestCatalogDtoValidator, IMapper mapper)
+        public InputCatalogCrudInteractor(ICatalogQueryOperationsUseCase<InputTypeCatalog> catalogQueryOperationsUseCase, ICatalogCommandOperationsUseCase<InputTypeCatalog> catalogCommandOperationsUseCase, IResponseOutputPort<IResponseResult> responseOutputPort, IResponseResultHelpers responseResultHelpers, RequestByModifyCatalogDtoValidator requestByModifyCatalogDtoValidator, RequestCatalogDtoValidator requestCatalogDtoValidator, IMapper mapper)
         {
             _catalogQueryOperationsUseCase = catalogQueryOperationsUseCase;
             _catalogCommandOperationsUseCase = catalogCommandOperationsUseCase;
@@ -40,13 +35,13 @@ namespace InventoryManagement.UseCases.Catalogs
 
         #region ShowAllRecords without params
         /// <summary>
-        /// Get all currency catalog records ordered by id and descended way.
+        /// Get all input catalog records ordered by id and descended way.
         /// </summary>
         /// <returns>The successfully completed task.</returns>
         public async Task<Task> ShowAllRecordsAsync()
         {
             //InputPort(Interactor) Logic
-            ResponseResult<IEnumerable<CurrencyTypeCatalog>> response = new();
+            ResponseResult<IEnumerable<InputTypeCatalog>> response = new();
             var dataResult = await _catalogQueryOperationsUseCase.AllRecordsOrderedByIdDescAsync();
             _responseResultHelpers.ByPassingValuesAsync(ref response, true, dataResult,
                 dataResult.Count() > 0 ? ReplyMessages.MESSAGE_QUERY_SUCCESSFULL : ReplyMessages.MESSAGE_QUERY_EMPTY);
@@ -59,10 +54,10 @@ namespace InventoryManagement.UseCases.Catalogs
 
         #region ShowRecord with id and request params
         /// <summary>
-        /// Get one single currency catalog record.
+        /// Get one single input catalog record.
         /// </summary>
         /// <param name="id">Appertain to catalog identifier.</param>
-        /// <param name="request">Appertain to requestDto object from currency catalog.</param>
+        /// <param name="request">Appertain to requestDto object from input catalog.</param>
         /// <returns>The successfully completed task.</returns>
         /// <exception cref="ValidationException"></exception>
         /// <exception cref="CustomBadRequestException"></exception>
@@ -79,7 +74,7 @@ namespace InventoryManagement.UseCases.Catalogs
                 throw new CustomBadRequestException(ReplyMessages.MESSAGE_DISCREPANCY);
 
             //InputPort(Interactor) Logic
-            ResponseResult<CurrencyTypeCatalog> response = new();
+            ResponseResult<InputTypeCatalog> response = new();
             var recordResult = await _catalogQueryOperationsUseCase.ItemAsync(id) ?? throw new KeyNotFoundException(ReplyMessages.MESSAGE_NOTFOUND);
             _responseResultHelpers.ByPassingValuesAsync(ref response, true, recordResult, ReplyMessages.MESSAGE_QUERY_SUCCESSFULL);
 
@@ -93,7 +88,8 @@ namespace InventoryManagement.UseCases.Catalogs
         /// <summary>
         /// Create input catalog record
         /// </summary>
-        /// <param name="request">Appertain to requestDto object from currency catalog.</param>
+        /// <param name="request">Appertain to requestDto object from input catalog.</param>
+        /// <returns>The successfully completed task.</returns>
         /// <exception cref="ValidationException"></exception>
         /// <exception cref="CustomBadRequestException"></exception>
         public async Task<Task> CreateRecordAsync(RequestCatalogDto request)
@@ -108,13 +104,13 @@ namespace InventoryManagement.UseCases.Catalogs
             var existItem = await _catalogQueryOperationsUseCase.ExistsAsync(request.Name);
             if (existItem)
             {
-                throw new  CustomBadRequestException(ReplyMessages.MESSAGE_EXIST);
+                throw new CustomBadRequestException(ReplyMessages.MESSAGE_EXIST);
             }
             else
             {
                 request.Id = 0;
                 request.Code = null;
-                var entityMapping = _mapper.Map<CurrencyTypeCatalog>(request);
+                var entityMapping = _mapper.Map<InputTypeCatalog>(request);
                 var operationResult = await _catalogCommandOperationsUseCase.CreateAsync(entityMapping, request.UserAlias);
                 var message = operationResult > 0 ? ReplyMessages.MESSAGE_SAVE : ReplyMessages.MESSAGE_NOTSAVE;
                 _responseResultHelpers.CatalogCommandOperationAsync(ref response, operationResult, message);
@@ -128,9 +124,9 @@ namespace InventoryManagement.UseCases.Catalogs
 
         #region EditRecord with request param
         /// <summary>
-        /// Update currency catalog record
+        /// Update input catalog record
         /// </summary>
-        /// <param name="request">Appertain to requestDto object from currency catalog.</param>
+        /// <param name="request">Appertain to requestDto object from input catalog.</param>
         /// <returns>The successfully completed task.</returns>
         /// <exception cref="ValidationException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
@@ -150,7 +146,7 @@ namespace InventoryManagement.UseCases.Catalogs
             }
             else
             {
-                var entityMapping = _mapper.Map<CurrencyTypeCatalog>(request);
+                var entityMapping = _mapper.Map<InputTypeCatalog>(request);
                 var operationResult = await _catalogCommandOperationsUseCase.EditAsync(entityMapping, request.UserAlias);
                 var message = operationResult > 0 ? ReplyMessages.MESSAGE_UPDATE : ReplyMessages.MESSAGE_NOTUPDATE;
                 _responseResultHelpers.CatalogCommandOperationAsync(ref response, operationResult, message);
@@ -164,10 +160,10 @@ namespace InventoryManagement.UseCases.Catalogs
 
         #region DeleteRecord with id and request params
         /// <summary>
-        /// Remove currency catalog record
+        /// Remove input catalog record
         /// </summary>
         /// <param name="id">Appertain to catalog identifier.</param>
-        /// <param name="request">Appertain to requestDto object from currency catalog.</param>
+        /// <param name="request">Appertain to requestDto object from input catalog.</param>
         /// <returns>The successfully completed task.</returns>
         /// <exception cref="ValidationException"></exception>
         /// <exception cref="CustomBadRequestException"></exception>
@@ -189,7 +185,7 @@ namespace InventoryManagement.UseCases.Catalogs
             if (getItem is null)
             {
                 throw new KeyNotFoundException(ReplyMessages.MESSAGE_NOTFOUND);
-            }
+            } 
             else
             {
                 var operationResult = await _catalogCommandOperationsUseCase.DeleteAsync(getItem);

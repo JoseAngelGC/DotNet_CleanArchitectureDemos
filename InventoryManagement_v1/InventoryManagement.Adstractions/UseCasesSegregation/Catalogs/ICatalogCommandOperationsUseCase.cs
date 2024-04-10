@@ -2,7 +2,7 @@
 
 namespace InventoryManagement.Adstractions.UseCasesSegregation.Catalogs
 {
-    public interface ICatalogsOperationsUseCase<T> where T : CatalogBaseEntity
+    public interface ICatalogCommandOperationsUseCase<T> where T : CatalogBaseEntity
     {
         Task<int> CreateAsync(T entity, string userAlias);
         Task<int> EditAsync(T entity, string userAlias);

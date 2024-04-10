@@ -4,10 +4,10 @@ using InventoryManagement.Entities.Bases;
 
 namespace InventoryManagement.UseCases.Catalogs.InteractorsSegregation
 {
-    public class CatalogsOperationsUseCase<T> : ICatalogsOperationsUseCase<T> where T : CatalogBaseEntity
+    public class CatalogCommandOperationsUseCase<T> : ICatalogCommandOperationsUseCase<T> where T : CatalogBaseEntity
     {
         private readonly ICatalogGenericRepository<T> _genericRepository;
-        public CatalogsOperationsUseCase(ICatalogGenericRepository<T> genericRepository)
+        public CatalogCommandOperationsUseCase(ICatalogGenericRepository<T> genericRepository)
         {
             _genericRepository = genericRepository;
         }

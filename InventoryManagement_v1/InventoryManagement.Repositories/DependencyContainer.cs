@@ -1,4 +1,5 @@
 ﻿using InventoryManagement.Adstractions.Repositories;
+using InventoryManagement.Entities.Catalogs;
 using InventoryManagement.Repositories.Catalogs;
 using InventoryManagement.Repositories.Generics;
 using InventoryManagement.Repositories.Temporal;
@@ -21,7 +22,8 @@ namespace InventoryManagement.Repositories
 
             //Repositories register
             services.AddScoped(typeof(ICatalogGenericRepository<>), typeof(CatalogGenericRepository<>));
-            services.AddScoped<ICurrencyTypeCatalogRepository, CurrencyTypeCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<CurrencyTypeCatalog>, CurrencyTypeCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<InputTypeCatalog>, InputTypeCatalogRepository>();
 
             return services;
         }
