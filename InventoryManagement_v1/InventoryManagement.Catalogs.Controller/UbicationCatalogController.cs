@@ -10,12 +10,12 @@ namespace InventoryManagement.Catalogs.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Description("[InputTypeCatalog EndPoints]")]
-    public class InputTypeCatalogController : ControllerBase
+    [Description("[ProductTypeCatalog EndPoints]")]
+    public class UbicationCatalogController : ControllerBase
     {
-        private readonly ICatalogUseCaseInputPort<InputTypeCatalog> _catalogUseCaseInputPort;
+        private readonly ICatalogUseCaseInputPort<UbicationCatalog> _catalogUseCaseInputPort;
         private readonly IResponseOutputPort<IResponseResult> _responseOutputPort;
-        public InputTypeCatalogController(ICatalogUseCaseInputPort<InputTypeCatalog> catalogUseCaseInputPort, IResponseOutputPort<IResponseResult> responseOutputPort)
+        public UbicationCatalogController(ICatalogUseCaseInputPort<UbicationCatalog> catalogUseCaseInputPort, IResponseOutputPort<IResponseResult> responseOutputPort)
         {
             _catalogUseCaseInputPort = catalogUseCaseInputPort;
             _responseOutputPort = responseOutputPort;

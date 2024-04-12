@@ -22,12 +22,14 @@ namespace InventoryManagement.UseCases
             //Register use cases (InputPort-Interactor)
             services.AddScoped<ICatalogUseCaseInputPort<CurrencyTypeCatalog>, CurrencyCatalogCrudInteractor>();
             services.AddScoped<ICatalogUseCaseInputPort<InputTypeCatalog>, InputCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<MeasureUnitCatalog>, MeasureUnitCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<OutputTypeCatalog>, OutputCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<ProductTypeCatalog>, ProductTypeCatalogCrudInteractor>();
+            services.AddScoped<ICatalogUseCaseInputPort<UbicationCatalog>, UbicationCatalogCrudInteractor>();
 
             //Register use cases (Interface Segregation-Interactor)
-            services.AddScoped(typeof(ICatalogQueryOperationsUseCase<CurrencyTypeCatalog>), typeof(CatalogQueryOperationsUseCase<CurrencyTypeCatalog>));
-            services.AddScoped(typeof(ICatalogCommandOperationsUseCase<CurrencyTypeCatalog>), typeof(CatalogCommandOperationsUseCase<CurrencyTypeCatalog>));
-            services.AddScoped(typeof(ICatalogQueryOperationsUseCase<InputTypeCatalog>), typeof(CatalogQueryOperationsUseCase<InputTypeCatalog>));
-            services.AddScoped(typeof(ICatalogCommandOperationsUseCase<InputTypeCatalog>), typeof(CatalogCommandOperationsUseCase<InputTypeCatalog>));
+            services.AddScoped(typeof(ICatalogQueryOperationsUseCase<>), typeof(CatalogQueryOperationsUseCase<>));
+            services.AddScoped(typeof(ICatalogCommandOperationsUseCase<>), typeof(CatalogCommandOperationsUseCase<>));
 
             //Register Helpers
             services.AddScoped<IResponseResultHelpers, ResponseResultHelpers>();

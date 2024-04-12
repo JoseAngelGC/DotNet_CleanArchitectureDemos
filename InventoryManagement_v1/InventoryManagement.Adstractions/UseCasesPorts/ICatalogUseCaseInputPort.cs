@@ -3,7 +3,7 @@ using InventoryManagement.Entities.Bases;
 
 namespace InventoryManagement.Adstractions.UseCasesPorts
 {
-    public interface ICatalogUseCaseInputPort<in T> where T : CatalogBaseEntity
+    public interface ICatalogUseCaseInputPort<T> where T : CatalogBaseEntity
     {
         Task<Task> ShowAllRecordsAsync();
         Task<Task> ShowRecordAsync(int id, RequestCatalogDto request);

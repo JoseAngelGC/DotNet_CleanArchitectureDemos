@@ -24,6 +24,10 @@ namespace InventoryManagement.Repositories
             services.AddScoped(typeof(ICatalogGenericRepository<>), typeof(CatalogGenericRepository<>));
             services.AddScoped<ISpecificCatalogRepository<CurrencyTypeCatalog>, CurrencyTypeCatalogRepository>();
             services.AddScoped<ISpecificCatalogRepository<InputTypeCatalog>, InputTypeCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<MeasureUnitCatalog>, MeasureUnitCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<OutputTypeCatalog>, OutputTypeCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<ProductTypeCatalog>, ProductTypeCatalogRepository>();
+            services.AddScoped<ISpecificCatalogRepository<UbicationCatalog>, UbicationCatalogRepository>();
 
             return services;
         }
